@@ -1,4 +1,5 @@
 import React from 'react';
+import GoogleMap from './GoogleMap';
 
 const storeLocations = [
   {
@@ -20,15 +21,17 @@ const storeLocations = [
     image: '/assets/stores/BOGNER-store-picture-1-300x183.jpg'
   },
   {
-    name: "Marc Cain – Limassol",
-    address: "230 Arch. Makariou III Ave, Limassol",
-    phone: "+357 25 029400",
-    image: '/assets/stores/marc-cain-limassol-300x225.jpg'
-  },
-  {
-    name: "Marc Cain – Paphos",
-    address: "Kings Avenue Mall, Paphos",
-    phone: "+357 26 020069",
+    name: "Marc Cain",
+    locations: [
+      {
+        address: "230 Arch. Makariou III Ave, Limassol",
+        phone: "+357 25 029400"
+      },
+      {
+        address: "Kings Avenue Mall, Paphos",
+        phone: "+357 26 020069"
+      }
+    ],
     image: '/assets/stores/marc-cain-limassol-300x225.jpg'
   },
   {
@@ -47,18 +50,34 @@ const storeLocations = [
 
 const StoreCard = ({ store }) => {
   return (
-    <div className="bg-gray-900 rounded-lg overflow-hidden">
+    <div className="rounded-lg overflow-hidden">
       <div className="h-48 overflow-hidden">
         <img 
           src={store.image} 
           alt={store.name} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
       </div>
       <div className="p-6">
         <h3 className="text-xl font-semibold mb-2">{store.name}</h3>
-        <p className="text-gray-300 mb-2">{store.address}</p>
-        <p className="text-gray-300">{store.phone}</p>
+        
+        {store.locations ? (
+          // Multiple locations (Marc Cain)
+          <div>
+            {store.locations.map((location, idx) => (
+              <div key={idx} className={idx > 0 ? "mt-4 pt-4 border-t border-gray-800" : ""}>
+                <p className="text-gray-300 mb-2">{location.address}</p>
+                <p className="text-gray-300">{location.phone}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          // Single location
+          <>
+            <p className="text-gray-300 mb-2">{store.address}</p>
+            <p className="text-gray-300">{store.phone}</p>
+          </>
+        )}
       </div>
     </div>
   );
@@ -82,15 +101,9 @@ const Stores = () => {
             Experience luxury fashion in person at any of our locations in Limassol and Paphos.
           </p>
           
-          {/* Google Maps embed placeholder */}
-          <div className="bg-gray-800 rounded-lg p-4 h-96 flex items-center justify-center">
-            <p className="text-gray-400">
-              Google Maps embed would be placed here in production.
-              <br />
-              For implementation, use: 
-              <br />
-              &lt;iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!..." width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"&gt;&lt;/iframe&gt;
-            </p>
+          {/* Google Maps */}
+          <div className="rounded-lg overflow-hidden h-96">
+            <GoogleMap />
           </div>
         </div>
       </div>

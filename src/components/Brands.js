@@ -81,16 +81,16 @@ const BrandCard = ({ brand }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <div 
-      className="relative bg-gray-900 p-6 rounded-lg transition-all duration-300 hover:bg-gray-800"
+    <div
+      className="relative p-6 rounded-lg transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="h-24 flex items-center justify-center mb-4">
-        <img 
-          src={brand.logo} 
-          alt={brand.name} 
-          className="max-h-full max-w-full object-contain filter brightness-0 invert"
+      <div className="h-24 flex items-center justify-center mb-4 overflow-hidden">
+        <img
+          src={brand.logo}
+          alt={brand.name}
+          className="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-110"
         />
       </div>
       <h3 className="text-xl font-semibold text-center mb-2">{brand.name}</h3>
