@@ -1,24 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --luxury-gold: #D4AF37;
+  --luxury-gold-light: #F4E4BC;
+  --luxury-black: #0A0A0A;
+  --luxury-gray: #1A1A1A;
+  --luxury-gray-light: #2A2A2A;
+  --luxury-white: #FAFAFA;
+  --luxury-accent: #8B7355;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: var(--luxury-black);
+  color: var(--luxury-white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.01em;
 }
 
 @layer components {
   .container {
-    @apply px-4 mx-auto max-w-7xl;
+    @apply px-6 mx-auto max-w-7xl lg:px-8;
   }
   
   .btn {
-    @apply px-6 py-3 font-medium transition-colors duration-300 rounded-md;
+    @apply px-8 py-4 font-medium transition-all duration-500 rounded-none relative overflow-hidden;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.875rem;
   }
   
   .btn-primary {
-    @apply text-white bg-black border border-white hover:bg-white hover:text-black;
+    @apply text-white bg-transparent border-2 border-white hover:bg-white hover:text-black;
+    position: relative;
+    z-index: 1;
   }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+    z-index: -1;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+  
+.luxury-text-gradient {
+  background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #FFA500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: brightness(1.2) contrast(1.1);
+}
+  
+  .luxury-border {
+    border-image: linear-gradient(45deg, var(--luxury-gold), transparent, var(--luxury-gold)) 1;
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .luxury-shadow {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  }
+  
+  .text-luxury-gold {
+    color: var(--luxury-gold);
+  }
+  
+  .bg-luxury-black {
+    background-color: var(--luxury-black);
+  }
+  
+  .bg-luxury-gray {
+    background-color: var(--luxury-gray);
+  }
+  
+  .bg-luxury-gray-light {
+    background-color: var(--luxury-gray-light);
+  }
+  
+  .border-luxury-gold {
+    border-color: var(--luxury-gold);
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--luxury-black);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--luxury-gold);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--luxury-gold-light);
+  }
+  
+  /* Luxury animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Typography enhancements */
+  .luxury-heading {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  
+  .luxury-subheading {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+  }
+  
+  /* Enhanced focus states */
+  .focus-luxury:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--luxury-gold);
+  }
+}
+
+/* Custom selection color */
+::selection {
+  background-color: var(--luxury-gold);
+  color: var(--luxury-black);
+}
+
+::-moz-selection {
+  background-color: var(--luxury-gold);
+  color: var(--luxury-black);
 }

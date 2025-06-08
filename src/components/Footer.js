@@ -70,7 +70,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-gray-800 text-center">
           <div className="flex justify-center space-x-6 mb-4">
             <a 
-              href="https://www.instagram.com/saga.boutique/" 
+              href="https://www.instagram.com/saga_boutique_cyprus_/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"

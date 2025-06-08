@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import Brands from './components/Brands';
+import BrandGallery from './components/BrandGallery';
 import Stores from './components/Stores';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
@@ -41,6 +42,7 @@ function App() {
         <Hero />
         <About />
         <Brands />
+        <BrandGallery />
         <Stores />
         <FAQ />
         <Contact />

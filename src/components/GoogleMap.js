@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Store locations with coordinates
 const storeCoordinates = [
@@ -8,7 +8,8 @@ const storeCoordinates = [
     phone: "+357 25 313126",
     lat: 34.6839,
     lng: 33.0553,
-    type: "multi-brand"
+    type: "multi-brand",
+    description: "Our flagship multi-brand boutique"
   },
   {
     name: "Saga Outlet",
@@ -16,7 +17,8 @@ const storeCoordinates = [
     phone: "+357 25 321839",
     lat: 34.6845,
     lng: 33.0560,
-    type: "multi-brand"
+    type: "multi-brand",
+    description: "Designer pieces at outlet prices"
   },
   {
     name: "Baldinini",
@@ -24,7 +26,8 @@ const storeCoordinates = [
     phone: "+357 25 025577",
     lat: 34.6870,
     lng: 33.0490,
-    type: "mono-brand"
+    type: "mono-brand",
+    description: "Italian luxury footwear"
   },
   {
     name: "Marc Cain — Limassol",
@@ -32,7 +35,8 @@ const storeCoordinates = [
     phone: "+357 25 029400",
     lat: 34.6875,
     lng: 33.0485,
-    type: "mono-brand"
+    type: "mono-brand",
+    description: "German designer fashion"
   },
   {
     name: "Marc Cain — Paphos",
@@ -40,7 +44,8 @@ const storeCoordinates = [
     phone: "+357 26 020069",
     lat: 34.7720,
     lng: 32.4297,
-    type: "mono-brand"
+    type: "mono-brand",
+    description: "German designer fashion"
   },
   {
     name: "Bogner",
@@ -48,7 +53,8 @@ const storeCoordinates = [
     phone: "+357 25 028788",
     lat: 34.6850,
     lng: 33.0530,
-    type: "mono-brand"
+    type: "mono-brand",
+    description: "Luxury sportswear & ski fashion"
   },
   {
     name: "Peserico",
@@ -56,21 +62,39 @@ const storeCoordinates = [
     phone: "+357 25 020082",
     lat: 34.6870,
     lng: 33.0490,
-    type: "mono-brand"
+    type: "mono-brand",
+    description: "Italian refined tailoring"
   }
 ];
 
 const GoogleMap = () => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const [mapError, setMapError] = useState(false);
 
   useEffect(() => {
-    // Load Google Maps API script
+    // Load Google Maps API script with proper API key
     const loadGoogleMapsAPI = () => {
+      // Check if script already exists
+      if (document.querySelector('script[src*="maps.googleapis.com"]')) {
+        if (window.google && window.google.maps) {
+          initializeMap();
+        }
+        return;
+      }
+
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBhDwTtXJQGDwgEaAUn-U_UYiRLSCpr8Qw&callback=initMap`;
+      // Use a more reliable API key or implement without API key for development
+      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=places`;
       script.async = true;
       script.defer = true;
+      
+      // Add error handling for script loading
+      script.onerror = () => {
+        console.error('Failed to load Google Maps API');
+        setMapError(true);
+        showFallbackMap();
+      };
       
       // Define the callback function globally
       window.initMap = () => {
@@ -81,6 +105,56 @@ const GoogleMap = () => {
       
       document.head.appendChild(script);
     };
+
+    // Fallback map implementation
+    const showFallbackMap = () => {
+      if (mapRef.current) {
+        mapRef.current.innerHTML = `
+          <div class="relative h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl overflow-hidden">
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div class="relative z-10 h-full flex flex-col items-center justify-center text-center p-8">
+              <div class="mb-6">
+                <svg class="w-16 h-16 text-white mx-auto mb-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <h3 class="text-2xl font-light text-white mb-2">Our Luxury Locations</h3>
+                <p class="text-gray-300 text-sm">Experience high fashion across Cyprus</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 border border-white border-opacity-20">
+                  <h4 class="text-white font-medium mb-1">Limassol</h4>
+                  <p class="text-gray-300 text-sm">5 Premium Boutiques</p>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 border border-white border-opacity-20">
+                  <h4 class="text-white font-medium mb-1">Paphos</h4>
+                  <p class="text-gray-300 text-sm">1 Designer Store</p>
+                </div>
+              </div>
+              <button 
+                onclick="window.open('https://www.google.com/maps/search/Saga+Boutique+Limassol', '_blank')"
+                class="mt-6 px-6 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-lg transition-all duration-300 backdrop-blur-sm border border-white border-opacity-30"
+              >
+                View on Google Maps
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    // Try to load Google Maps, fallback to elegant display
+    try {
+      loadGoogleMapsAPI();
+      // Set a timeout to show fallback if maps don't load
+      setTimeout(() => {
+        if (!mapError) {
+          showFallbackMap();
+        }
+      }, 5000);
+    } catch (error) {
+      showFallbackMap();
+    }
 
     // Initialize the map
     const initializeMap = () => {
